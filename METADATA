@@ -1,0 +1,16 @@
+name: "google_styleguide"
+description:
+    "Style guides for Google-originated open-source projects"
+
+third_party {
+  url {
+    type: HOMEPAGE
+    value: "https://github.com/google/styleguide/"
+  }
+  url {
+    type: GIT
+    value: "https://github.com/google/styleguide.git"
+  }
+  version: ""
+  last_upgrade_date { year: 2017 month: 11 day: 10 }
+}
