@@ -4295,13 +4295,16 @@ def GetLineWidth(line):
         # Issue 337
         # https://mail.python.org/pipermail/python-list/2012-August/628809.html
         if (sys.version_info.major, sys.version_info.minor) <= (3, 2):
-          # https://github.com/python/cpython/blob/2.7/Include/unicodeobject.h#L81
-          is_wide_build = sysconfig.get_config_var("Py_UNICODE_SIZE") >= 4
-          # https://github.com/python/cpython/blob/2.7/Objects/unicodeobject.c#L564
-          is_low_surrogate = 0xDC00 <= ord(uc) <= 0xDFFF
-          if not is_wide_build and is_low_surrogate:
-            width -= 1
-          
+          try:
+            # https://github.com/python/cpython/blob/2.7/Include/unicodeobject.h#L81
+            is_wide_build = sysconfig.get_config_var("Py_UNICODE_SIZE") >= 4
+            # https://github.com/python/cpython/blob/2.7/Objects/unicodeobject.c#L564
+            is_low_surrogate = 0xDC00 <= ord(uc) <= 0xDFFF
+            if not is_wide_build and is_low_surrogate:
+              width -= 1
+          except ImportError:
+            # Android prebuilt python ends up CHECK-failing here due to how it's compiled.
+            pass
         width += 1
     return width
   else:
